@@ -1,0 +1,4 @@
+Alliance is a Django app for musicians' networking sites.
+
+This is not a Django site; it has to be installed into a working site to be
+useful.
