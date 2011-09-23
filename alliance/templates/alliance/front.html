@@ -1,0 +1,53 @@
+{% load url from future %}<html>
+<head>
+<title>Alliance</title>
+</head>
+<body>
+
+<p>
+{% if user.is_authenticated %}
+Logged in as {{ user.get_full_name|default:user.username }}.
+<a href="{% url "django.contrib.auth.views.logout" %}">Log out</a> &mdash;
+{% else %}
+Not logged in.
+{% endif %}
+<a href="{% url "django.contrib.auth.views.login" %}">Log in</a></p>
+
+{% if profile %}
+<dl>
+
+<dt>Regions</dt>
+{% for location in profile.regions.all %}
+<dd>{{ location.label }}</dd>
+{% empty %}
+<dd><i>None</i></dd>
+{% endfor %}
+
+<dt>Skills</dt>
+{% for skill in profile.skills.all %}
+<dd>{{ skill.label }}</dd>
+{% empty %}
+<dd><i>None</i></dd>
+{% endfor %}
+
+<dt>Owned opportunities</dt>
+{% for opp in profile.opportunity_set.all %}
+<dd><a href="{% url "alliance.views.opportunity" opp.pk %}">
+    {{ opp.label }}</a></dd>
+{% empty %}
+<dd><i>None</i></dd>
+{% endfor %}
+
+<dt>Interested opportunities</dt>
+{% for req in profile.requirement_set.all %}
+<dd><a href="{% url "alliance.views.opportunity" pk=req.pk %}">
+    {{ req.opportunity.label }}</a> &mdash; {{ req.skill.label }}</dd>
+{% empty %}
+<dd><i>None</i></dd>
+{% endfor %}
+
+</dl>
+{% endif %}
+
+</body>
+</html>

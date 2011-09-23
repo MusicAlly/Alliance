@@ -58,6 +58,16 @@ class UserProfile(models.Model):
         through='alliance.UserSkill')
     regions = models.ManyToManyField('alliance.Region', blank=True)
 
+    def display_name(self):
+        n = self.user.get_full_name()
+        if not n:
+            return self.user.username
+        return n
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('alliance.views.user_profile', [self.user.username])
+
     def __unicode__(self):
         return '%s Alliance profile' % self.user
 
@@ -82,7 +92,7 @@ class Opportunity(models.Model):
     #reqs = models.ManyToManyField('alliance.Requirement')
     label = models.CharField(max_length=40)
     description = models.TextField()
-    owner = models.ForeignKey('auth.User')
+    owner = models.ForeignKey('alliance.UserProfile')
     post_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -102,5 +112,4 @@ class Requirement(models.Model):
     level = models.ForeignKey('alliance.SkillLevel', blank=True)
     count = models.PositiveIntegerField(blank=True, null=True,
         validators=[MinValueValidator(1)])
-    takers = models.ManyToManyField('alliance.UserProfile', blank=True,
-        related_name = 'taken_ops')
+    takers = models.ManyToManyField('alliance.UserProfile', blank=True)
