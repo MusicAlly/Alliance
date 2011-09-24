@@ -1,0 +1,24 @@
+Alliance is a Django app, which is different from a Django project.
+
+If you put Alliance in a directory which isn't in your project directory, you
+need to show your project where to find it, which means that it must be in
+Python's path. You have two options: you can set the environment variable
+PYTHONPATH to include the toplevel Alliance directory, whereever it is that
+you've installed it, or you can insert the following into the top of the
+project's settings.py:
+
+import sys
+sys.path.insert(0, '/path/to/Alliance')
+
+Now, python (and therefore your project) know where Alliance is. However, you
+need to tell your project that you are in fact using Alliance. In your
+project's settings.py, make sure that alliance (note the lower-case) is
+included in INSTALLED_APPS.
+
+You also need to edit urls.py so that users can access the views. For example,
+if you want http://www.yoursite.com/alliance to go to the front page, you would
+add
+
+url(r'^alliance/', include('alliance.urls'))
+
+to your urlpatterns.
