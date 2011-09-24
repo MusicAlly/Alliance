@@ -1,17 +1,11 @@
-{% load url from future %}<html>
-<head>
-<title>Alliance</title>
-</head>
-<body>
+{% extends "alliance/base.html" %}
 
-<p>
-{% if user.is_authenticated %}
-Logged in as {{ user.get_full_name|default:user.username }}.
-<a href="{% url "django.contrib.auth.views.logout" %}">Log out</a> &mdash;
-{% else %}
-Not logged in.
-{% endif %}
-<a href="{% url "django.contrib.auth.views.login" %}">Log in</a></p>
+{% load url from future %}
+
+{% block title %}Alliance{% endblock title %}
+
+
+{% block content %}
 
 {% if profile %}
 <dl>
@@ -47,7 +41,10 @@ Not logged in.
 {% endfor %}
 
 </dl>
+{% else %}
+
+<p>You don't seem to have an Alliance profile.</p>
+
 {% endif %}
 
-</body>
-</html>
+{% endblock content %}

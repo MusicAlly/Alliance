@@ -1,0 +1,25 @@
+{% comment %}
+
+This is Alliance's default base_site.html. All Alliance templates ultimately
+extend base_site, and this file provides a generic default for that. Sites
+using the Alliance app may leave this be, or write their own base_site.html
+in one of the site's TEMPLATE_DIRS directories. If Django finds a
+base_site.html file in one of the TEMPLATE_DIRS, it will use that file instead
+of this one. Note that the replacement file should be stored directly in the
+template directory, not an alliance/ subfolder.
+
+Alliance templates will expect base_site.html, wherever it is, to declare three
+template blocks: title, extrahead, body, and content.
+
+{% endcomment %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>{% block title %}{% endblock title %}</title>
+{% block extrahead %}{% endblock extrahead %}
+</head>
+<body>
+{% block body %}{% block content %}{% endblock content %}{% endblock body %}
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "base_site.html" %}
+
+{% comment %}
+
+This is Alliance's app-level base template. All other Alliance templates extend
+this one. Site administrators may change the appearance of Alliance pages by
+writing replacement templates and saving them in an alliance/ subdirectory of
+one of the paths in Django's TEMPLATE_DIRS setting.
+
+{% endcomment %}
+
+
+{% load url from future %}
+
+
+{% block body %}
+<div id="alli_header">
+    <div id="alli_branding">Music<span class="alli_trick">Ally</span></div>
+    <div id="alli_ident">
+    {% if user.is_authenticated %}
+        {% if profile %}<a href="{{ profile.get_absolute_url }}">{% endif %}
+        {{ user.get_full_name|default:user.username }}
+        {% if profile %}</a>{% endif %}
+        | <a href="{% url "django.contrib.auth.views.logout" %}">Log out</a>
+    {% else %}
+        <a href="{% url "django.contrib.auth.views.login" %}">Log in</a>
+    {% endif %}
+    </div>
+</div>
+
+{% block content %}{% endblock content %}
+{% endblock body %}

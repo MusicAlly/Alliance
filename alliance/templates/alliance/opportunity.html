@@ -1,42 +1,43 @@
-{% load url from future %}{% load humanize %}<html>
-<head>
-<title>{{ opp.label }}</title>
-</head>
-<body>
+{% extends "alliance/base.html" %}
 
+{% load humanize %}
+{% load url from future %}
+
+
+{% block title %}{{ opp.label }}{% endblock title %}
+
+{% block content %}
 <dl>
-<dt>Label</dt>
-<dd>{{ opp.label }}</dd>
+    <dt>Label</dt>
+    <dd>{{ opp.label }}</dd>
 
-<dt>Owner</dt>
-<dd>
-<a href="{{ opp.owner.get_absolute_url }}">{{ opp.owner.display_name }}</a>
-</dd>
-</dt>
+    <dt>Owner</dt>
+    <dd>
+    <a href="{{ opp.owner.get_absolute_url }}">{{ opp.owner.display_name }}</a>
+    </dd>
+    </dt>
 
-<dt>Region</dt>
-<dd>{{ opp.region.label|default:"(None)" }}</dd>
+    <dt>Region</dt>
+    <dd>{{ opp.region.label|default:"(None)" }}</dd>
 
-<dt>Description</dt>
-<dd>{{ opp.description }}</dd>
+    <dt>Description</dt>
+    <dd>{{ opp.description }}</dd>
 
-<dt>Posting date</dt>
-<dd>{{ opp.post_date }}</dd>
+    <dt>Posting date</dt>
+    <dd>{{ opp.post_date }}</dd>
 
-<dt>Requested skills</dt>
-<dd><ul>
-{% for req in opp.requirement_set.all %}
-<li>
-{{ req.count|apnumber|title }} {{ req.skill }} ({{ req.level }})
-{% for taker in req.takers.all %}
-{% if forloop.first %}&mdash;{% else %}/{% endif %}
-<a href="{{ taker.get_absolute_url }}">{{ taker.display_name }}</a>
-{% endfor %}
+    <dt>Requested skills</dt>
+    <dd><ul>
+    {% for req in opp.requirement_set.all %}
+    <li>
+    {{ req.count|apnumber|title }} {{ req.skill }} ({{ req.level }})
+    {% for taker in req.takers.all %}
+        {% if forloop.first %}&mdash;{% else %}/{% endif %}
+        <a href="{{ taker.get_absolute_url }}">{{ taker.display_name }}</a>
+    {% endfor %}
 </li>
 {% endfor %}
 </ul></dd>
 
 </dl>
-
-</body>
-</html>
+{% endblock content %}

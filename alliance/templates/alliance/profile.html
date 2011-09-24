@@ -1,48 +1,47 @@
-{% load url from future %}<html>
-<head>
-<title>{{ profile.display_name }}</title>
-</head>
-<body>
+{% extends "alliance/base.html" %}
 
+{% load url from future %}
+
+{% block title %}{{ profile.display_name }}{% endblock title %}
+
+
+{% block content %}
 <dl>
-<dt>Username</dt>
-<dd>{{ profile.user.username }}</dd>
+    <dt>Username</dt>
+    <dd>{{ profile.user.username }}</dd>
 
-<dt>Full name</dt>
-<dd>
-{% if profile.user.get_full_name %}
-    {{ profile.user.get_full_name }}
-{% else %}
-    <i>None given</i>
-{%endif %}
-</dd>
+    <dt>Full name</dt>
+    <dd>
+    {% if profile.user.get_full_name %}
+        {{ profile.user.get_full_name }}
+    {% else %}
+        <i>None given</i>
+    {%endif %}
+    </dd>
 
-<dt>Skills</dt>
-<dd><ul>
-{% for userskill in profile.userskill_set.all %}
-<li>{{ userskill.skill.label }} &mdash; {{ userskill.level }}</li>
-{% empty %}
-<li><i>None</i></li>
-{% endfor %}
-</ul></dd>
+    <dt>Skills</dt>
+    <dd><ul>
+    {% for userskill in profile.userskill_set.all %}
+        <li>{{ userskill.skill.label }} &mdash; {{ userskill.level }}</li>
+    {% empty %}
+        <li><i>None</i></li>
+    {% endfor %}
+    </ul></dd>
 
-<dt>Owned opportunities</dt>
-{% for opp in profile.opportunity_set.all %}
-<dd><a href="{% url "alliance.views.opportunity" pk=opp.pk %}">
-    {{ opp.label }}</a></dd>
-{% empty %}
-<dd><i>None</i></dd>
-{% endfor %}
+    <dt>Owned opportunities</dt>
+    {% for opp in profile.opportunity_set.all %}
+        <dd><a href="{% url "alliance.views.opportunity" pk=opp.pk %}">
+            {{ opp.label }}</a></dd>
+    {% empty %}
+        <dd><i>None</i></dd>
+    {% endfor %}
 
-<dt>Interested opportunities</dt>
-{% for req in profile.requirement_set.all %}
-<dd><a href="{% url "alliance.views.opportunity" pk=req.pk %}">
-    {{ req.opportunity.label }}</a> &mdash; {{ req.skill.label }}</dd>
-{% empty %}
-<dd><i>None</i></dd>
-{% endfor %}
-
+    <dt>Interested opportunities</dt>
+    {% for req in profile.requirement_set.all %}
+        <dd><a href="{% url "alliance.views.opportunity" pk=req.pk %}">
+            {{ req.opportunity.label }}</a> &mdash; {{ req.skill.label }}</dd>
+    {% empty %}
+        <dd><i>None</i></dd>
+    {% endfor %}
 </dl>
-
-</body>
-</html>
+{% endblock content %}
