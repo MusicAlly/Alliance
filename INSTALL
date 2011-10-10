@@ -22,3 +22,27 @@ add
 url(r'^alliance/', include('alliance.urls'))
 
 to your urlpatterns.
+
+Alliance uses Django's default user authentication module, django.contrib.auth.
+This means that Alliance requires auth to be properly configured. To do this:
+
+  1. Make sure 'django.contrib.auth' appears in your INSTALLED_APPS setting.
+
+  2. Make django.contrib.auth.views.login and django.contrib.auth.views.logout
+     accessible through urls.py.
+
+  2(a). Either write your own registration/login.html template or point the
+     login view to Alliance's one by passing 'login.html' as the template_name
+     argument of the login view.
+
+  2(b). Optionally specify the next_page argument to the logout view.
+
+  3. Set LOGIN_URL and LOGOUT_URL. This lets views that require user
+     authentication to redirect to the login page if necessary.
+
+  4. Either set LOGIN_REDIRECT_URL or make sure you have a view in place at its
+     default values ('/accounts/profile/'). The login view will redirect users
+     to this location when they successfully log in.
+
+The official Django documentation has more information on the auth module at
+<https://docs.djangoproject.com/en/1.3/topics/auth/>.
